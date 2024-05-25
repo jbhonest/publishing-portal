@@ -1,0 +1,14 @@
+{% extends "book_app/base.html" %}
+
+{% block title %}
+<title>Publishing Portal</title>
+{% endblock %}
+
+{% block content %}
+<h1>Publishing Portal</h1>
+<div class="list-group">
+    <a class="list-group-item" href="{% url 'book_app:publisher_list' %}">Publishers</a>
+    <a class="list-group-item" href="{% url 'book_app:author_list' %}">Authors</a>
+    <a class="list-group-item" href="{% url 'book_app:book_list' %}">Books</a>
+</div>
+{% endblock %}

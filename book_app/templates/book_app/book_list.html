@@ -1,0 +1,16 @@
+{% extends 'book_app/base.html' %}
+
+{% block title %}
+<title>Books</title>
+{% endblock %}
+
+{% block content %}
+<h1>Books</h1>
+<div class="list-group">
+    {% for book in books %}
+    <a class="list-group-item" href="{% url 'book_app:book_detail' book.pk %}">{{ book.title }}</a>
+    {% empty %}
+    <p>No books found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

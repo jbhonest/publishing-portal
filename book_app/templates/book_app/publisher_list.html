@@ -1,0 +1,16 @@
+{% extends 'book_app/base.html' %}
+
+{% block title %}
+<title>Publishers</title>
+{% endblock %}
+
+{% block content %}
+<h1>Publishers</h1>
+<div class="list-group">
+    {% for publisher in publishers %}
+    <a class="list-group-item" href="{% url 'book_app:publisher_detail' publisher.pk %}">{{ publisher.name }}</a>
+    {% empty %}
+    <p>No publishers found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

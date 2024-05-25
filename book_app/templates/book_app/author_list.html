@@ -1,0 +1,16 @@
+{% extends 'book_app/base.html' %}
+
+{% block title %}
+<title>Authors</title>
+{% endblock %}
+
+{% block content %}
+<h1>Authors</h1>
+<div class="list-group">
+    {% for author in authors %}
+    <a class="list-group-item" href="{% url 'book_app:author_detail' author.pk %}">{{ author.name }}</a>
+    {% empty %}
+    <p>No authors found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

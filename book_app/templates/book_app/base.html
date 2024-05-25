@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    <title>Base Page</title>
+    {% endblock %}
+
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'book_app:index' %}">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04"
+                aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsExample04">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link {% if nbar == 'publishers' %}active{% endif %}"
+                            href="{% url 'book_app:publisher_list' %}">Publishers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if nbar == 'authors' %}active{% endif %}"
+                            href="{% url 'book_app:author_list' %}">Authors</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if nbar == 'books' %}active{% endif %}"
+                            href="{% url 'book_app:book_list' %}">Books</a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="container p-4 my-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+{% extends 'book_app/base.html' %}
+
+{% block title %}
+<title>{{ publisher.name }}</title>
+{% endblock %}
+
+{% block content %}
+<h1>{{ publisher.name }}</h1>
+<p>Address: {{ publisher.address }}</p>
+<p>City: {{ publisher.city }}</p>
+<p>State/Province: {{ publisher.state_province }}</p>
+<p>Country: {{ publisher.country }}</p>
+<p>Website: <a href="{{ publisher.website }}">{{ publisher.website }}</a></p>
+
+<h2>Books Published by {{ publisher.name }}</h2>
+<ul>
+    {% for book in books %}
+    <li>{{ book.title }} ({{ book.publication_date }})</li>
+    {% empty %}
+    <li>No books found for this publisher.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
