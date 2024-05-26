@@ -7,7 +7,9 @@
 {% block content %}
 <h1>{{ author.name }}</h1>
 <p>Email: {{ author.email }}</p>
-
+{% if author.headshot %}
+<img src="{{ author.headshot.url }}" class="img-fluid" alt="{{ author.name }} headshot">
+{% endif %}
 
 <h2>Books authored by {{ author.name }}</h2>
 <ul>

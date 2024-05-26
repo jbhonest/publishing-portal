@@ -1,4 +1,6 @@
 from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 from .models import Publisher, Author, Book
 
 
@@ -44,6 +46,25 @@ class PublisherDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['books'] = Book.objects.filter(publisher=self.object)
         return context
+
+
+class PublisherCreateView(CreateView):
+    model = Publisher
+    fields = ['name', 'address', 'city',
+              'state_province', 'country', 'website']
+    success_url = reverse_lazy('book_app:publisher_list')
+
+
+class AuthorCreateView(CreateView):
+    model = Author
+    fields = ['name', 'email', 'headshot']
+    success_url = reverse_lazy('book_app:author_list')
+
+
+class BookCreateView(CreateView):
+    model = Book
+    fields = ['title', 'authors', 'publisher', 'publication_date', 'cover']
+    success_url = reverse_lazy('book_app:book_list')
 
 
 class AuthorDetailView(DetailView):

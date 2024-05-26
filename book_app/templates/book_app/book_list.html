@@ -6,11 +6,37 @@
 
 {% block content %}
 <h1>Books</h1>
-<div class="list-group">
-    {% for book in books %}
-    <a class="list-group-item" href="{% url 'book_app:book_detail' book.pk %}">{{ book.title }}</a>
-    {% empty %}
-    <p>No books found.</p>
-    {% endfor %}
-</div>
+<a href="{% url 'book_app:book_add' %}" class="btn btn-success mb-3">Add New Book</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col" class="d-none d-md-table-cell">Authors</th>
+            <th scope="col" class="d-none d-md-table-cell">Publisher</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>
+                <a href="{% url 'book_app:book_detail' book.pk %}">{{ book.title }}</a>
+            </td>
+            <td>
+                {% for author in book.authors.all %}
+                <a href="{% url 'book_app:author_detail' author.pk %}">{{ author.name }}</a>{% if not forloop.last%}, {% endif %}
+                {% endfor %}
+            </td>
+            <td>
+                <a href="{% url 'book_app:publisher_detail' book.publisher.pk %}">{{ book.publisher.name }}</a>
+            </td>
+        </tr>
+
+        {% empty %}
+        <tr>
+            <td colspan="3">No books found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}

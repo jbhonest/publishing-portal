@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-p!l+%3j)7z1igb&=-qyb0nr-ll3@r(g8j_=o=%vxwew130mrla
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'publishing.stockstats.ir']
 
 
 # Application definition
