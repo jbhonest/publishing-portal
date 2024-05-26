@@ -12,6 +12,7 @@
         <tr>
             <th scope="col">Name</th>
             <th scope="col" class="d-none d-md-table-cell">Email</th>
+            <th scope="col">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -21,6 +22,15 @@
                 <a href="{% url 'book_app:author_detail' author.pk %}">{{ author.name }}</a>
             </td>
             <td class="d-none d-md-table-cell">{{ author.email }}</td>
+
+            <td>
+                <a href="{% url 'book_app:author_edit' author.pk %}" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a href="{% url 'book_app:author_delete' author.pk %}" class="btn btn-sm btn-outline-danger">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </td>
         </tr>
 
         {% empty %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class Publisher(models.Model):
@@ -41,8 +42,9 @@ class Book(models.Model):
 
     def delete(self):
         # Delete the image file from the storage
-        storage, path = self.cover.storage, self.cover.path
-        storage.delete(path)
+        if self.cover:
+            storage, path = self.cover.storage, self.cover.path
+            storage.delete(path)
 
         # Call the parent class's delete method to remove the model instance from the database
         super().delete()

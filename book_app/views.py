@@ -1,6 +1,8 @@
 from django.views.generic import ListView, DetailView, TemplateView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
+from django.contrib import messages
 from .models import Publisher, Author, Book
 
 
@@ -15,16 +17,6 @@ class PublisherListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['nbar'] = "publishers"
-        return context
-
-
-class AuthorListView(ListView):
-    model = Author
-    context_object_name = "authors"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['nbar'] = "authors"
         return context
 
 
@@ -55,16 +47,56 @@ class PublisherCreateView(CreateView):
     success_url = reverse_lazy('book_app:publisher_list')
 
 
-class AuthorCreateView(CreateView):
-    model = Author
-    fields = ['name', 'email', 'headshot']
-    success_url = reverse_lazy('book_app:author_list')
+class PublisherDeleteView(DeleteView):
+    model = Publisher
+    success_url = reverse_lazy('book_app:publisher_list')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.book_set.exists():
+            messages.error(
+                request, "This publisher cannot be deleted because it is assigned to one or more books.")
+            return redirect('book_app:publisher_list')
+        return super().delete(request, *args, **kwargs)
+
+
+class PublisherUpdateView(UpdateView):
+    model = Publisher
+    fields = ['name', 'address', 'city',
+              'state_province', 'country', 'website']
+    success_url = reverse_lazy('book_app:publisher_list')
+
+
+class BookDetailView(DetailView):
+    model = Book
+    context_object_name = 'book'
 
 
 class BookCreateView(CreateView):
     model = Book
     fields = ['title', 'authors', 'publisher', 'publication_date', 'cover']
     success_url = reverse_lazy('book_app:book_list')
+
+
+class BookDeleteView(DeleteView):
+    model = Book
+    success_url = reverse_lazy('book_app:book_list')
+
+
+class BookUpdateView(UpdateView):
+    model = Book
+    fields = ['title', 'authors', 'publisher', 'publication_date', 'cover']
+    success_url = reverse_lazy('book_app:book_list')
+
+
+class AuthorListView(ListView):
+    model = Author
+    context_object_name = "authors"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['nbar'] = "authors"
+        return context
 
 
 class AuthorDetailView(DetailView):
@@ -77,6 +109,26 @@ class AuthorDetailView(DetailView):
         return context
 
 
-class BookDetailView(DetailView):
-    model = Book
-    context_object_name = 'book'
+class AuthorCreateView(CreateView):
+    model = Author
+    fields = ['name', 'email', 'headshot']
+    success_url = reverse_lazy('book_app:author_list')
+
+
+class AuthorDeleteView(DeleteView):
+    model = Author
+    success_url = reverse_lazy('book_app:author_list')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.book_set.exists():
+            messages.error(
+                request, "This author cannot be deleted because they are assigned to one or more books.")
+            return redirect('book_app:author_list')
+        return super().post(request, *args, **kwargs)
+
+
+class AuthorUpdateView(UpdateView):
+    model = Author
+    fields = ['name', 'email', 'headshot']
+    success_url = reverse_lazy('book_app:author_list')

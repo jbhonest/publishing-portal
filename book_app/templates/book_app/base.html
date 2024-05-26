@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/685899c1e0.js" crossorigin="anonymous"></script>
     {% block title %}
     <title>Base Page</title>
     {% endblock %}
@@ -44,10 +45,22 @@
         </div>
     </nav>
 
-    <div class="container p-4 my-4">
+    <div class="container my-3">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="container p-3 my-3">
         {% block content %}
         {% endblock %}
     </div>
+
+
 
 </body>
 

@@ -13,6 +13,7 @@
             <th scope="col">Title</th>
             <th scope="col" class="d-none d-md-table-cell">Authors</th>
             <th scope="col" class="d-none d-md-table-cell">Publisher</th>
+            <th scope="col">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -29,11 +30,19 @@
             <td>
                 <a href="{% url 'book_app:publisher_detail' book.publisher.pk %}">{{ book.publisher.name }}</a>
             </td>
+            <td>
+                <a href="{% url 'book_app:book_edit' book.pk %}" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a href="{% url 'book_app:book_delete' book.pk %}" class="btn btn-sm btn-outline-danger">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </td>
         </tr>
 
         {% empty %}
         <tr>
-            <td colspan="3">No books found.</td>
+            <td colspan="4">No books found.</td>
         </tr>
         {% endfor %}
     </tbody>

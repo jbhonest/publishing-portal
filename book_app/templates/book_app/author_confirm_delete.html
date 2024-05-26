@@ -1,0 +1,17 @@
+{% extends 'book_app/base.html' %}
+
+{% block title %}
+<title>Delete Author</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Delete Author</h1>
+    <p>Are you sure you want to delete <strong>{{ object.name }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
+        <a href="{% url 'book_app:author_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
