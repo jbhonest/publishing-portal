@@ -10,11 +10,11 @@
 <p>Publication Date: {{ book.publication_date }}</p>
 
 <h2>Authors</h2>
-<ul class="list-group">
+<ul>
     {% for author in book.authors.all %}
-    <li class="list-group-item">{{ author.name }}</li>
+    <li><a href="{% url 'book_app:author_detail' author.pk %}">{{ author.name }}</a></li>
     {% empty %}
-    <li class="list-group-item">No authors listed.</li>
+    <li>No authors listed.</li>
     {% endfor %}
 
     {% if book.cover %}
