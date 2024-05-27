@@ -14,7 +14,7 @@
 <h2>Books authored by {{ author.name }}</h2>
 <ul>
     {% for book in books %}
-    <li>{{ book.title }} ({{ book.publication_date }})</li>
+    <li><a href="{% url 'book_app:book_detail' book.pk %}">{{ book.title }} ({{ book.publication_date }})</a></li>
     {% empty %}
     <li>No books found for this author.</li>
     {% endfor %}
