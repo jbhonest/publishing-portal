@@ -13,6 +13,7 @@ class HomePageView(TemplateView):
 class PublisherListView(ListView):
     model = Publisher
     context_object_name = "publishers"
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -42,6 +43,18 @@ class PublisherCreateView(CreateView):
         return context
 
 
+class PublisherUpdateView(UpdateView):
+    model = Publisher
+    fields = ['name', 'address', 'city',
+              'state_province', 'country', 'website']
+    success_url = reverse_lazy('book_app:publisher_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Edit Publisher'
+        return context
+
+
 class PublisherDeleteView(DeleteView):
     model = Publisher
     success_url = reverse_lazy('book_app:publisher_list')
@@ -55,21 +68,10 @@ class PublisherDeleteView(DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class PublisherUpdateView(UpdateView):
-    model = Publisher
-    fields = ['name', 'address', 'city',
-              'state_province', 'country', 'website']
-    success_url = reverse_lazy('book_app:publisher_list')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Edit Publisher'
-        return context
-
-
 class BookListView(ListView):
     model = Book
     context_object_name = "books"
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -93,11 +95,6 @@ class BookCreateView(CreateView):
         return context
 
 
-class BookDeleteView(DeleteView):
-    model = Book
-    success_url = reverse_lazy('book_app:book_list')
-
-
 class BookUpdateView(UpdateView):
     model = Book
     fields = ['title', 'authors', 'publisher', 'publication_date', 'cover']
@@ -109,9 +106,15 @@ class BookUpdateView(UpdateView):
         return context
 
 
+class BookDeleteView(DeleteView):
+    model = Book
+    success_url = reverse_lazy('book_app:book_list')
+
+
 class AuthorListView(ListView):
     model = Author
     context_object_name = "authors"
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -140,6 +143,17 @@ class AuthorCreateView(CreateView):
         return context
 
 
+class AuthorUpdateView(UpdateView):
+    model = Author
+    fields = ['name', 'email', 'headshot']
+    success_url = reverse_lazy('book_app:author_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Edit Author'
+        return context
+
+
 class AuthorDeleteView(DeleteView):
     model = Author
     success_url = reverse_lazy('book_app:author_list')
@@ -151,14 +165,3 @@ class AuthorDeleteView(DeleteView):
                 request, "This author cannot be deleted because they are assigned to one or more books.")
             return redirect('book_app:author_list')
         return super().post(request, *args, **kwargs)
-
-
-class AuthorUpdateView(UpdateView):
-    model = Author
-    fields = ['name', 'email', 'headshot']
-    success_url = reverse_lazy('book_app:author_list')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Edit Author'
-        return context
