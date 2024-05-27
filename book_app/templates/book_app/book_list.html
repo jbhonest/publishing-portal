@@ -22,12 +22,12 @@
             <td>
                 <a href="{% url 'book_app:book_detail' book.pk %}">{{ book.title }}</a>
             </td>
-            <td>
+            <td class="d-none d-md-table-cell">
                 {% for author in book.authors.all %}
                 <a href="{% url 'book_app:author_detail' author.pk %}">{{ author.name }}</a>{% if not forloop.last%}, {% endif %}
                 {% endfor %}
             </td>
-            <td>
+            <td class="d-none d-md-table-cell">
                 <a href="{% url 'book_app:publisher_detail' book.publisher.pk %}">{{ book.publisher.name }}</a>
             </td>
             <td>
