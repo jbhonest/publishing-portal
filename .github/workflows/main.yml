@@ -1,0 +1,22 @@
+name: Run Script
+
+on:
+  push:
+    branches:
+      - main  # Adjust the branch name as needed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Choose the appropriate runner based on your server
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: SSH and deploy script
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        port: ${{ secrets.SSH_PORT }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: /home/jamal/site-setup/publishing/setup-publishing.sh
