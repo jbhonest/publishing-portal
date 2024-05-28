@@ -6,6 +6,11 @@
 
 {% block content %}
 <h1>Publishers</h1>
+<form class="d-flex mb-3" role="search" action="{% url 'book_app:publisher_list' %}" method="get">
+    <input class="form-control me-2" type="search" placeholder="Search Publishers" aria-label="Search" name="query"
+        value="{{ request.GET.query }}">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
 <a href="{% url 'book_app:publisher_add' %}" class="btn btn-success mb-3">Add New Publisher</a>
 <table class="table table-striped">
     <thead>

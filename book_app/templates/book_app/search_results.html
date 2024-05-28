@@ -14,6 +14,7 @@
             <tr>
                 <th>Name</th>
                 <th>City</th>
+                <th>State</th>
                 <th>Country</th>
             </tr>
         </thead>
@@ -22,11 +23,12 @@
             <tr>
                 <td><a href="{% url 'book_app:publisher_detail' publisher.pk %}">{{ publisher.name }}</a></td>
                 <td>{{ publisher.city }}</td>
+                <td>{{ publisher.state_province }}</td>
                 <td>{{ publisher.country }}</td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="3">No publishers found.</td>
+                <td colspan="4">No publishers found.</td>
             </tr>
             {% endfor %}
         </tbody>
