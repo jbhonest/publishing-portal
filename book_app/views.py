@@ -26,8 +26,7 @@ class PublisherListView(ListView):
         queryset = super().get_queryset()
         query = self.request.GET.get('query')
         if query:
-            queryset = queryset.filter(Q(name__icontains=query) | Q(city__icontains=query) | Q(
-                state_province__icontains=query) | Q(country__icontains=query))
+            queryset = queryset.filter(Q(name__icontains=query))
         return queryset
 
 
@@ -92,8 +91,7 @@ class BookListView(ListView):
         queryset = super().get_queryset()
         query = self.request.GET.get('query')
         if query:
-            queryset = queryset.filter(Q(title__icontains=query) | Q(
-                authors__name__icontains=query) | Q(publisher__name__icontains=query)).distinct()
+            queryset = queryset.filter(Q(title__icontains=query))
         return queryset
 
 
@@ -143,8 +141,7 @@ class AuthorListView(ListView):
         queryset = super().get_queryset()
         query = self.request.GET.get('query')
         if query:
-            queryset = queryset.filter(
-                Q(name__icontains=query) | Q(email__icontains=query))
+            queryset = queryset.filter(Q(name__icontains=query))
         return queryset
 
 
@@ -196,11 +193,9 @@ class AuthorDeleteView(DeleteView):
 def search(request):
     query = request.GET.get('query')
     authors = Author.objects.filter(
-        Q(name__icontains=query) | Q(email__icontains=query))
-    books = Book.objects.filter(Q(title__icontains=query) | Q(
-        authors__name__icontains=query) | Q(publisher__name__icontains=query)).distinct()
-    publishers = Publisher.objects.filter(Q(name__icontains=query) | Q(
-        city__icontains=query) | Q(country__icontains=query))
+        Q(name__icontains=query))
+    books = Book.objects.filter(Q(title__icontains=query))
+    publishers = Publisher.objects.filter(Q(name__icontains=query))
 
     context = {
         'query': query,
