@@ -17,7 +17,7 @@ class Command(BaseCommand):
 
         # Generate publishers
         publishers = []
-        for _ in range(10):
+        for _ in range(20):
             publisher = Publisher(
                 name=fake.company(),
                 address=fake.address(),
