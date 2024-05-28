@@ -40,7 +40,9 @@
                     </li>
 
                 </ul>
-
+                <form role="search" action="{% url 'book_app:search' %}" method="get">
+                    <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="query">
+                </form>
             </div>
         </div>
     </nav>

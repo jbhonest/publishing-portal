@@ -4,6 +4,8 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib import messages
 from .models import Publisher, Author, Book
+from django.db.models import Q
+from django.shortcuts import render
 
 
 class HomePageView(TemplateView):
@@ -19,6 +21,14 @@ class PublisherListView(ListView):
         context = super().get_context_data(**kwargs)
         context['nbar'] = "publishers"
         return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('query')
+        if query:
+            queryset = queryset.filter(Q(name__icontains=query) | Q(city__icontains=query) | Q(
+                state_province__icontains=query) | Q(country__icontains=query))
+        return queryset
 
 
 class PublisherDetailView(DetailView):
@@ -78,6 +88,14 @@ class BookListView(ListView):
         context['nbar'] = "books"
         return context
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('query')
+        if query:
+            queryset = queryset.filter(Q(title__icontains=query) | Q(
+                authors__name__icontains=query) | Q(publisher__name__icontains=query)).distinct()
+        return queryset
+
 
 class BookDetailView(DetailView):
     model = Book
@@ -120,6 +138,14 @@ class AuthorListView(ListView):
         context = super().get_context_data(**kwargs)
         context['nbar'] = "authors"
         return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('query')
+        if query:
+            queryset = queryset.filter(
+                Q(name__icontains=query) | Q(email__icontains=query))
+        return queryset
 
 
 class AuthorDetailView(DetailView):
@@ -165,3 +191,21 @@ class AuthorDeleteView(DeleteView):
                 request, "This author cannot be deleted because they are assigned to one or more books.")
             return redirect('book_app:author_list')
         return super().post(request, *args, **kwargs)
+
+
+def search(request):
+    query = request.GET.get('query')
+    authors = Author.objects.filter(
+        Q(name__icontains=query) | Q(email__icontains=query))
+    books = Book.objects.filter(Q(title__icontains=query) | Q(
+        authors__name__icontains=query) | Q(publisher__name__icontains=query)).distinct()
+    publishers = Publisher.objects.filter(Q(name__icontains=query) | Q(
+        city__icontains=query) | Q(country__icontains=query))
+
+    context = {
+        'query': query,
+        'authors': authors,
+        'books': books,
+        'publishers': publishers
+    }
+    return render(request, 'book_app/search_results.html', context)
