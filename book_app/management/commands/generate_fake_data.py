@@ -11,9 +11,11 @@ class Command(BaseCommand):
         fake = Faker()
 
         # Clear existing data
-        Publisher.objects.all().delete()
-        Author.objects.all().delete()
         Book.objects.all().delete()
+        Author.objects.all().delete()
+        Publisher.objects.all().delete()
+        
+        
 
         # Generate publishers
         publishers = []
@@ -49,7 +51,7 @@ class Command(BaseCommand):
             )
             book.save()
             # Assign random authors to the book
-            book.authors.set(random.sample(authors, k=random.randint(1, 5)))
+            book.authors.set(random.sample(authors, k=random.randint(1, 3)))
             book.save()
 
         self.stdout.write(self.style.SUCCESS(
