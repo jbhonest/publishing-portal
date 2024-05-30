@@ -21,4 +21,13 @@
     <img src="{{ book.cover.url }}" class="img-fluid" alt="{{ book.title }} cover">
     {% endif %}
 </ul>
+
+<br>
+<a href="{% url 'book_app:book_edit' book.pk %}" class="btn btn-primary">
+    <i class="fas fa-edit"></i> Edit
+</a>
+<a href="{% url 'book_app:book_delete' book.pk %}" class="btn btn-danger">
+    <i class="fas fa-trash"></i> Delete
+</a>
+
 {% endblock %}

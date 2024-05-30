@@ -12,6 +12,14 @@
 <p>Country: {{ publisher.country }}</p>
 <p>Website: <a href="{{ publisher.website }}">{{ publisher.website }}</a></p>
 
+<a href="{% url 'book_app:publisher_edit' publisher.pk %}" class="btn btn-primary">
+    <i class="fas fa-edit"></i> Edit
+</a>
+<a href="{% url 'book_app:publisher_delete' publisher.pk %}" class="btn btn-danger">
+    <i class="fas fa-trash"></i> Delete
+</a>
+<br>
+<br>
 <h2>Books published by {{ publisher.name }}</h2>
 <ul>
     {% for book in books %}
@@ -20,4 +28,5 @@
     <li>No books found for this publisher.</li>
     {% endfor %}
 </ul>
+
 {% endblock %}

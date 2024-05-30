@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect
 from django.contrib import messages
 from .models import Publisher, Author, Book
@@ -50,6 +50,7 @@ class PublisherCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Add Publisher'
+        context['cancel_url'] = reverse('book_app:publisher_list')
         return context
 
 
@@ -57,11 +58,15 @@ class PublisherUpdateView(LoginRequiredMixin, UpdateView):
     model = Publisher
     fields = ['name', 'address', 'city',
               'state_province', 'country', 'website']
-    success_url = reverse_lazy('book_app:publisher_list')
+
+    def get_success_url(self):
+        return reverse('book_app:publisher_detail', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edit Publisher'
+        context['cancel_url'] = reverse(
+            'book_app:publisher_detail', kwargs={'pk': self.object.pk})
         return context
 
 
@@ -77,55 +82,11 @@ class PublisherDeleteView(LoginRequiredMixin, DeleteView):
             return redirect('book_app:publisher_list')
         return super().delete(request, *args, **kwargs)
 
-
-class BookListView(ListView):
-    model = Book
-    context_object_name = "books"
-    paginate_by = 10
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['nbar'] = "books"
+        context['cancel_url'] = reverse(
+            'book_app:publisher_detail', kwargs={'pk': self.object.pk})
         return context
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        query = self.request.GET.get('query')
-        if query:
-            queryset = queryset.filter(Q(title__icontains=query))
-        return queryset
-
-
-class BookDetailView(DetailView):
-    model = Book
-    context_object_name = 'book'
-
-
-class BookCreateView(LoginRequiredMixin, CreateView):
-    model = Book
-    fields = ['title', 'authors', 'publisher', 'publication_date', 'cover']
-    success_url = reverse_lazy('book_app:book_list')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Add Book'
-        return context
-
-
-class BookUpdateView(LoginRequiredMixin, UpdateView):
-    model = Book
-    fields = ['title', 'authors', 'publisher', 'publication_date', 'cover']
-    success_url = reverse_lazy('book_app:book_list')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Edit Book'
-        return context
-
-
-class BookDeleteView(LoginRequiredMixin, DeleteView):
-    model = Book
-    success_url = reverse_lazy('book_app:book_list')
 
 
 class AuthorListView(ListView):
@@ -164,17 +125,22 @@ class AuthorCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Add Author'
+        context['cancel_url'] = reverse('book_app:author_list')
         return context
 
 
 class AuthorUpdateView(LoginRequiredMixin, UpdateView):
     model = Author
     fields = ['name', 'email', 'headshot']
-    success_url = reverse_lazy('book_app:author_list')
+
+    def get_success_url(self):
+        return reverse('book_app:author_detail', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edit Author'
+        context['cancel_url'] = reverse(
+            'book_app:author_detail', kwargs={'pk': self.object.pk})
         return context
 
 
@@ -189,6 +155,73 @@ class AuthorDeleteView(LoginRequiredMixin, DeleteView):
                 request, "This author cannot be deleted because they are assigned to one or more books.")
             return redirect('book_app:author_list')
         return super().post(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cancel_url'] = reverse(
+            'book_app:author_detail', kwargs={'pk': self.object.pk})
+        return context
+
+
+class BookListView(ListView):
+    model = Book
+    context_object_name = "books"
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['nbar'] = "books"
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('query')
+        if query:
+            queryset = queryset.filter(Q(title__icontains=query))
+        return queryset
+
+
+class BookDetailView(DetailView):
+    model = Book
+    context_object_name = 'book'
+
+
+class BookCreateView(LoginRequiredMixin, CreateView):
+    model = Book
+    fields = ['title', 'authors', 'publisher', 'publication_date', 'cover']
+    success_url = reverse_lazy('book_app:book_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Add Book'
+        context['cancel_url'] = reverse('book_app:book_list')
+        return context
+
+
+class BookUpdateView(LoginRequiredMixin, UpdateView):
+    model = Book
+    fields = ['title', 'authors', 'publisher', 'publication_date', 'cover']
+
+    def get_success_url(self):
+        return reverse('book_app:book_detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Edit Book'
+        context['cancel_url'] = reverse(
+            'book_app:book_detail', kwargs={'pk': self.object.pk})
+        return context
+
+
+class BookDeleteView(LoginRequiredMixin, DeleteView):
+    model = Book
+    success_url = reverse_lazy('book_app:book_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cancel_url'] = reverse(
+            'book_app:book_detail', kwargs={'pk': self.object.pk})
+        return context
 
 
 def search(request):

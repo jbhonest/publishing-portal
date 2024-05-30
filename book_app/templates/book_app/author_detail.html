@@ -11,6 +11,15 @@
 <img src="{{ author.headshot.url }}" class="img-fluid" alt="{{ author.name }} headshot">
 {% endif %}
 
+<a href="{% url 'book_app:author_edit' author.pk %}" class="btn btn-primary">
+    <i class="fas fa-edit"></i> Edit
+</a>
+<a href="{% url 'book_app:author_delete' author.pk %}" class="btn btn-danger">
+    <i class="fas fa-trash"></i> Delete
+</a>
+<br>
+<br>
+
 <h2>Books authored by {{ author.name }}</h2>
 <ul>
     {% for book in books %}
