@@ -64,6 +64,7 @@ A Django application to manage publishers, authors, and books.
 
 7. Open your browser and go to `http://127.0.0.1:8000/`
 
+## Usage
 ### Admin Panel
 1. Navigate to http://127.0.0.1:8000/admin
 2. Log in with the superuser credentials you created
