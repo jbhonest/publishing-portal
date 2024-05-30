@@ -38,6 +38,9 @@
                         <a class="nav-link {% if nbar == 'books' %}active{% endif %}"
                             href="{% url 'book_app:book_list' %}">Books</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}" target="_blank">Admin</a>
+                    </li>
 
                 </ul>
                 <form class="d-flex m-2" role="search" action="{% url 'book_app:search' %}" method="get">
