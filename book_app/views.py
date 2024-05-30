@@ -6,6 +6,7 @@ from django.contrib import messages
 from .models import Publisher, Author, Book
 from django.db.models import Q
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class HomePageView(TemplateView):
@@ -40,7 +41,7 @@ class PublisherDetailView(DetailView):
         return context
 
 
-class PublisherCreateView(CreateView):
+class PublisherCreateView(LoginRequiredMixin, CreateView):
     model = Publisher
     fields = ['name', 'address', 'city',
               'state_province', 'country', 'website']
@@ -52,7 +53,7 @@ class PublisherCreateView(CreateView):
         return context
 
 
-class PublisherUpdateView(UpdateView):
+class PublisherUpdateView(LoginRequiredMixin, UpdateView):
     model = Publisher
     fields = ['name', 'address', 'city',
               'state_province', 'country', 'website']
@@ -64,7 +65,7 @@ class PublisherUpdateView(UpdateView):
         return context
 
 
-class PublisherDeleteView(DeleteView):
+class PublisherDeleteView(LoginRequiredMixin, DeleteView):
     model = Publisher
     success_url = reverse_lazy('book_app:publisher_list')
 
@@ -100,7 +101,7 @@ class BookDetailView(DetailView):
     context_object_name = 'book'
 
 
-class BookCreateView(CreateView):
+class BookCreateView(LoginRequiredMixin, CreateView):
     model = Book
     fields = ['title', 'authors', 'publisher', 'publication_date', 'cover']
     success_url = reverse_lazy('book_app:book_list')
@@ -111,7 +112,7 @@ class BookCreateView(CreateView):
         return context
 
 
-class BookUpdateView(UpdateView):
+class BookUpdateView(LoginRequiredMixin, UpdateView):
     model = Book
     fields = ['title', 'authors', 'publisher', 'publication_date', 'cover']
     success_url = reverse_lazy('book_app:book_list')
@@ -122,7 +123,7 @@ class BookUpdateView(UpdateView):
         return context
 
 
-class BookDeleteView(DeleteView):
+class BookDeleteView(LoginRequiredMixin, DeleteView):
     model = Book
     success_url = reverse_lazy('book_app:book_list')
 
@@ -155,7 +156,7 @@ class AuthorDetailView(DetailView):
         return context
 
 
-class AuthorCreateView(CreateView):
+class AuthorCreateView(LoginRequiredMixin, CreateView):
     model = Author
     fields = ['name', 'email', 'headshot']
     success_url = reverse_lazy('book_app:author_list')
@@ -166,7 +167,7 @@ class AuthorCreateView(CreateView):
         return context
 
 
-class AuthorUpdateView(UpdateView):
+class AuthorUpdateView(LoginRequiredMixin, UpdateView):
     model = Author
     fields = ['name', 'email', 'headshot']
     success_url = reverse_lazy('book_app:author_list')
@@ -177,7 +178,7 @@ class AuthorUpdateView(UpdateView):
         return context
 
 
-class AuthorDeleteView(DeleteView):
+class AuthorDeleteView(LoginRequiredMixin, DeleteView):
     model = Author
     success_url = reverse_lazy('book_app:author_list')
 
