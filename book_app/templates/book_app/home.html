@@ -7,8 +7,8 @@
 {% block content %}
 <h1>Publishing Portal</h1>
 <div class="list-group">
-    <a class="list-group-item" href="{% url 'book_app:publisher_list' %}">Publishers</a>
-    <a class="list-group-item" href="{% url 'book_app:author_list' %}">Authors</a>
-    <a class="list-group-item" href="{% url 'book_app:book_list' %}">Books</a>
+    <a class="list-group-item list-group-item-action" href="{% url 'book_app:publisher_list' %}">Publishers</a>
+    <a class="list-group-item list-group-item-action" href="{% url 'book_app:author_list' %}">Authors</a>
+    <a class="list-group-item list-group-item-action" href="{% url 'book_app:book_list' %}">Books</a>
 </div>
 {% endblock %}
