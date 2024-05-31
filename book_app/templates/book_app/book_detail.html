@@ -29,5 +29,8 @@
 <a href="{% url 'book_app:book_delete' book.pk %}" class="btn btn-danger">
     <i class="fas fa-trash"></i> Delete
 </a>
+<a href="{% url 'book_app:book_detail_pdf' book.pk %}" class="btn btn-primary">
+    <i class="fas fa-file-pdf"></i> Export to PDF
+</a>
 
 {% endblock %}

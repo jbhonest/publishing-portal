@@ -3,9 +3,12 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.template.loader import render_to_string
 from .models import Publisher, Author, Book
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from weasyprint import HTML
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -238,3 +241,14 @@ def search(request):
         'publishers': publishers
     }
     return render(request, 'book_app/search_results.html', context)
+
+
+def book_detail_pdf(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    html_string = render_to_string(
+        'book_app/book_detail_pdf.html', {'book': book})
+    html = HTML(string=html_string, base_url=request.build_absolute_uri())
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename={book.title}.pdf'
+    html.write_pdf(response)
+    return response
