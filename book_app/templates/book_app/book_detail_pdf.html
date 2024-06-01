@@ -12,6 +12,7 @@
     <p><strong>Authors:</strong> {{ book.authors.all|join:", " }}</p>
     <p><strong>Publisher:</strong> {{ book.publisher.name }}</p>
     <p><strong>Publication Date:</strong> {{ book.publication_date }}</p>
+    <p><strong>Book URL:</strong> <a href="{{ full_url }}">{{ full_url }}</a></p>
 
     {% if book.cover %}
     <img src="{{ request.build_absolute_uri }} {{ book.cover.url }}" class="img-fluid" alt="{{ book.title }} cover"

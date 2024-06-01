@@ -245,8 +245,9 @@ def search(request):
 
 def book_detail_pdf(request, pk):
     book = get_object_or_404(Book, pk=pk)
+    full_url = request.build_absolute_uri(book.get_absolute_url())
     html_string = render_to_string(
-        'book_app/book_detail_pdf.html', {'book': book})
+        'book_app/book_detail_pdf.html', {'book': book, 'full_url': full_url})
     html = HTML(string=html_string, base_url=request.build_absolute_uri())
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename={book.title}.pdf'
