@@ -16,21 +16,22 @@
     {% empty %}
     <li>No authors listed.</li>
     {% endfor %}
-
-    {% if book.cover %}
-    <img src="{{ book.cover.url }}" class="img-fluid" alt="{{ book.title }} cover">
-    {% endif %}
 </ul>
+{% if book.cover %}
+<img src="{{ book.cover.url }}" class="img-fluid" alt="{{ book.title }} cover" style="max-width: 500px;">
+{% endif %}
 
 <br>
-<a href="{% url 'book_app:book_edit' book.pk %}" class="btn btn-primary">
+<br>
+<a href="{% url 'book_app:book_edit' book.pk %}" class="btn btn-primary" style="width: 9rem;">
     <i class="fas fa-edit"></i> Edit
 </a>
-<a href="{% url 'book_app:book_delete' book.pk %}" class="btn btn-danger">
-    <i class="fas fa-trash"></i> Delete
-</a>
-<a href="{% url 'book_app:book_detail_pdf' book.pk %}" class="btn btn-primary">
+<a href="{% url 'book_app:book_detail_pdf' book.pk %}" class="btn btn-success" style="width: 9rem;">
     <i class="fas fa-file-pdf"></i> Export to PDF
 </a>
+<a href="{% url 'book_app:book_delete' book.pk %}" class="btn btn-danger" style="width: 9rem;">
+    <i class="fas fa-trash"></i> Delete
+</a>
+
 
 {% endblock %}
