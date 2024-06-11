@@ -8,7 +8,7 @@
     {% block title %}
     <title>Base Page</title>
     {% endblock %}
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
@@ -37,6 +37,10 @@
                     <li class="nav-item">
                         <a class="nav-link {% if nbar == 'books' %}active{% endif %}"
                             href="{% url 'book_app:book_list' %}">Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if nbar == 'charts' %}active{% endif %}"
+                            href="{% url 'book_app:charts' %}">Charts</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'admin:index' %}" target="_blank">Admin</a>

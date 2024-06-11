@@ -1,0 +1,42 @@
+{% extends 'book_app/base.html' %}
+
+{% block title %}
+<title>Charts</title>
+{% endblock %}
+
+{% block content %}
+<h1>Number of Books per Publisher</h1>
+<canvas id="booksChart" width="400" height="200"></canvas>
+
+  <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('booksChart').getContext('2d');
+            var booksChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [{% for publisher in publishers %}'{{ publisher.name }}',{% endfor %}],
+                    datasets: [{
+                        label: 'Number of Books',
+                        data: [{% for publisher in publishers %}{{ publisher.num_books }},{% endfor %}],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

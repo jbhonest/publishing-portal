@@ -7,6 +7,7 @@ from django.template.loader import render_to_string
 from .models import Publisher, Author, Book
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Count
 from django.http import HttpResponse
 from weasyprint import HTML
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -253,3 +254,9 @@ def book_detail_pdf(request, pk):
     response['Content-Disposition'] = f'attachment; filename={book.title}.pdf'
     html.write_pdf(response)
     return response
+
+
+def charts(request):
+    # Aggregate data
+    publishers = Publisher.objects.annotate(num_books=Count('book'))
+    return render(request, 'book_app/charts.html', {'publishers': publishers, 'nbar': 'charts'})

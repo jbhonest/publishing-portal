@@ -3,7 +3,7 @@ from .views import (PublisherListView, PublisherDetailView,
                     HomePageView, AuthorListView, AuthorDetailView, AuthorDeleteView,
                     BookListView, BookDetailView, PublisherCreateView, AuthorUpdateView,
                     AuthorCreateView, BookCreateView, BookDeleteView, BookUpdateView,
-                    PublisherDeleteView, PublisherUpdateView, search, book_detail_pdf)
+                    PublisherDeleteView, PublisherUpdateView, charts, search, book_detail_pdf)
 
 app_name = 'book_app'
 urlpatterns = [
@@ -35,6 +35,7 @@ urlpatterns = [
     path('books/<int:pk>/edit/',
          BookUpdateView.as_view(), name='book_edit'),
     path('books/<int:pk>/pdf/', book_detail_pdf, name='book_detail_pdf'),
+    path('charts/', charts, name='charts'),
     path('search/', search, name='search'),
 
 ]
